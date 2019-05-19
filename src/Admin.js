@@ -1,0 +1,30 @@
+import React from 'react';
+import {Col, Row} from "antd";
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+export default class Admin extends React.Component {
+
+
+  render() {
+    return (
+      <Row>
+        <Col span="3">
+          left
+        </Col>
+
+        <Col span="21">
+          <Header>
+            header
+          </Header>
+          <Row>
+            row
+          </Row>
+          <Footer>
+            footer
+          </Footer>
+        </Col>
+      </Row>
+    );
+  }
+}
