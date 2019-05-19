@@ -4,7 +4,7 @@ export default class Navleft extends React.Component{
 
   render() {
     return (
-      <div>
+      <div style={{ backgroundColor: 'red' }}>
         this is navleft
       </div>
     );
