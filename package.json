@@ -8,6 +8,7 @@
     "@typescript-eslint/eslint-plugin": "1.6.0",
     "@typescript-eslint/parser": "1.6.0",
     "add": "^2.0.6",
+    "antd": "^3.18.1",
     "axios": "^0.18.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "^24.8.0",

@@ -68,3 +68,45 @@ const lessModuleRegex = /\.module\.less$/;    //新增
   ),
 },
 ```
+
+#### antd 按需加载
+
+安装 ``AntD``
+    
+    yarn add antd
+    
+修改配置文件 ``webpack.config.js``
+
+338行
+```js
+{
+  test: /\.(js|mjs|jsx|ts|tsx)$/,
+  include: paths.appSrc,
+  loader: require.resolve('babel-loader'),
+  options: {
+    customize: require.resolve(
+      'babel-preset-react-app/webpack-overrides'
+    ),
+    
+    plugins: [
+      [
+        require.resolve('babel-plugin-named-asset-import'),
+        {
+          loaderMap: {
+            svg: {
+              ReactComponent: '@svgr/webpack?-svgo,+ref![path]',
+            },
+          },
+        },
+      ],
+      [
+        require.resolve('babel-plugin-import'),
+        {
+          libraryName: 'antd',
+          style: 'css'
+        }
+      ],
+    ],
+     // This is a feature of `babel-loader` for webpack (not Babel itself).
+```
+
