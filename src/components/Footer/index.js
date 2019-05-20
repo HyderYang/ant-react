@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+
+import './index.less';
 
 export default class Footer extends React.Component{
 
   render() {
     return (
-      <div>
+      <div className="footer">
         this is footer
       </div>
     );
