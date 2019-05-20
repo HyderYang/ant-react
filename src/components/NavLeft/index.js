@@ -11,14 +11,14 @@ const MenuItem = Menu.Item;
 export default class Navleft extends React.Component{
 
   componentWillMount() {
-    const menuTreeNode = this.renderMenu(MenuConfig);
     this.setState({
-      menuTreeNode
+      menuTreeNode: this.renderMenu(MenuConfig)
     })
   }
 
   // 菜单渲染
   renderMenu = (data) => {
+    // 递归拼接菜单信息
     return data.map((item) => {
         if (item.children) {
           return (
