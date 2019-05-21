@@ -36,7 +36,6 @@ export default class Navleft extends React.Component{
           </NavLink>
         </MenuItem>
       )
-
     });
   };
 
