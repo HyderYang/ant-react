@@ -7,6 +7,7 @@ import Button from "./pages/ui/button";
 import NoMatch from "./pages/no_match";
 import Modals from "./pages/ui/modals";
 import Spin from "./pages/ui/spin";
+import Notify from "./pages/ui/notify";
 
 export default class IRouter extends React.Component{
 
@@ -22,6 +23,7 @@ export default class IRouter extends React.Component{
                   <Route path="/admin/ui/buttons" component={Button}/>
                   <Route path="/admin/ui/modals" component={Modals}/>
                   <Route path="/admin/ui/loadings" component={Spin}/>
+                  <Route path="/admin/ui/notification" component={Notify}/>
                   <Route component={NoMatch} />
                 </Switch>
               </Admin>
