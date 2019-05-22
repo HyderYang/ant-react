@@ -63,7 +63,7 @@ export default class Buttons extends React.Component{
           <Button type="primary" onClick={this.handleTriggerLoading}>{this.state.loadingText}</Button>
         </Card>
 
-        <Card title="按钮组">
+        <Card title="按钮组" style={{marginBottom: 20}}>
           <Button.Group>
             <Button type="primary" icon="left">后退</Button>
             <Button type="primary">
