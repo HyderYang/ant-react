@@ -11,6 +11,7 @@ import Notify from "./pages/ui/notify";
 import messages from "./pages/ui/message";
 import Tabs from "./pages/ui/tabs";
 import Gallery from "./pages/ui/gallery";
+import Carousels from "./pages/ui/carousel";
 
 export default class IRouter extends React.Component{
 
@@ -30,6 +31,7 @@ export default class IRouter extends React.Component{
                   <Route path="/admin/ui/messages" component={messages}/>
                   <Route path="/admin/ui/tabs" component={Tabs}/>
                   <Route path="/admin/ui/gallery" component={Gallery}/>
+                  <Route path="/admin/ui/carousel" component={Carousels}/>
                   <Route component={NoMatch} />
                 </Switch>
               </Admin>
