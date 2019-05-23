@@ -12,6 +12,7 @@ import messages from "./pages/ui/message";
 import Tabs from "./pages/ui/tabs";
 import Gallery from "./pages/ui/gallery";
 import Carousels from "./pages/ui/carousel";
+import LoginForm from "./pages/form/login";
 
 export default class IRouter extends React.Component{
 
@@ -32,6 +33,8 @@ export default class IRouter extends React.Component{
                   <Route path="/admin/ui/tabs" component={Tabs}/>
                   <Route path="/admin/ui/gallery" component={Gallery}/>
                   <Route path="/admin/ui/carousel" component={Carousels}/>
+                  <Route path="/admin/form/login" component={LoginForm}/>
+                  {/*<Route path="/admin/form/reg" component={Register}/>*/}
                   <Route component={NoMatch} />
                 </Switch>
               </Admin>
