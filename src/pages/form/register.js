@@ -1,19 +1,61 @@
 import React from 'react'
-import {Card, Form, Icon, Input, InputNumber, Radio, Select} from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  DatePicker,
+  Form,
+  Icon,
+  Input,
+  InputNumber,
+  Radio,
+  Select,
+  Switch,
+  TimePicker,
+  Upload
+} from "antd";
+import moment from "moment";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
+const TextArea = Input.TextArea;
 
-class Register extends React.Component{
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      avatar: null
     }
-  }
+  };
+
+  getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  };
+
+  handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      this.setState({loading: true});
+      return;
+    }
+    if (info.file.status === 'done') {
+      this.getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          avatar: imageUrl,
+          loading: false
+        })
+      )
+    }
+  };
+
+  handleSubmit = () => {
+    let userInfo = this.props.form.getFieldsValue();
+    console.log(JSON.stringify(userInfo))
+  };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
     const formItemLayout = {
       labelCol: {
         xs: 24,
@@ -22,6 +64,15 @@ class Register extends React.Component{
       wrapperCol: {
         xs: 24,
         sm: 20
+      }
+    };
+    const offsetLayout = {
+      wrapperCol: {
+        xs: 24,
+        sm: {
+          span: 12,
+          offset: 4,
+        }
       }
     };
     return (
@@ -39,7 +90,7 @@ class Register extends React.Component{
                     }
                   ]
                 })(
-                  <Input prefix={<Icon type="user" />} placeholder="用户名"/>
+                  <Input prefix={<Icon type="user"/>} placeholder="用户名"/>
                 )
               }
             </FormItem>
@@ -54,7 +105,7 @@ class Register extends React.Component{
                     }
                   ]
                 })(
-                  <Input prefix={<Icon type="lock" />} placeholder="密码"/>
+                  <Input prefix={<Icon type="lock"/>} placeholder="密码"/>
                 )
               }
             </FormItem>
@@ -75,7 +126,7 @@ class Register extends React.Component{
                 getFieldDecorator('age', {
                   initialValue: 18
                 })(
-                  <InputNumber />
+                  <InputNumber/>
                 )
               }
             </FormItem>
@@ -112,10 +163,76 @@ class Register extends React.Component{
                 )
               }
             </FormItem>
+            <FormItem label="已婚" {...formItemLayout}>
+              {
+                getFieldDecorator('isMarried', {
+                  valuePropName: 'checked',
+                  initialValue: true
+                })(
+                  <Switch/>
+                )
+              }
+            </FormItem>
+            <FormItem label="生日" {...formItemLayout}>
+              {
+                getFieldDecorator('birthday', {
+                  initialValue: moment('2018-08-21')
+                })(
+                  <DatePicker
+                    showTime
+                    format="YYYY-MM-DD HH:mm:ss"
+                  />
+                )
+              }
+            </FormItem>
+            <FormItem label="地址" {...formItemLayout}>
+              {
+                getFieldDecorator('address', {
+                  initialValue: '',
+
+                })(
+                  <TextArea
+                    autosize={{minRows: 5, maxRows: 19}}
+                  />
+                )
+              }
+            </FormItem>
+            <FormItem label="早起时间" {...formItemLayout}>
+              {
+                getFieldDecorator('time')(
+                  <TimePicker/>
+                )
+              }
+            </FormItem>
+            <FormItem label="头像" {...formItemLayout}>
+              {
+                getFieldDecorator('avatar', {})(
+                  <Upload
+                    listType="picture-card"
+                    showUploadList
+                    action="//jsonplaceholder.typicode.com/posts/"
+                    onChange={this.handleChange}
+                  >
+                    {this.state.avatar ? <img src={this.state.avatar} alt="avatar"/> : <Icon type="plus"/>}
+                  </Upload>
+                )
+              }
+            </FormItem>
+            <FormItem {...offsetLayout} >
+              {
+                getFieldDecorator('accept')(
+                  <Checkbox>已阅读协议</Checkbox>
+                )
+              }
+            </FormItem>
+            <FormItem {...offsetLayout}>
+              <Button type="primary" onClick={this.handleSubmit}>注册</Button>
+            </FormItem>
           </Form>
         </Card>
       </div>
     );
   }
 }
+
 export default Form.create()(Register)
