@@ -1,13 +1,33 @@
 import React from 'react'
 import {Card, Table} from "antd";
+import axios from 'axios';
+import Http from "../../http";
 
 export default class BasicTable extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      dataSource:[]
+      dataSource:[],
+      dataSource1: [],
     }
   }
+
+  request = () => {
+    Http.ajax({
+      url: '/table/list',
+      data: {
+        params: {
+          page:1
+        }
+      }
+    }).then((res) => {
+      if (res.code == 0) {
+        this.setState({
+          dataSource1: res.result.list
+        })
+      }
+    })
+  };
 
   componentDidMount() {
     const dataSource = [
@@ -15,8 +35,8 @@ export default class BasicTable extends React.Component{
         id: '0',
         username: '张三',
         sex: '1',
-        status: '1',
-        hobby: '篮球',
+        state: '1',
+        interest: '篮球',
         birthday: '2000-01-01',
         address: '保定市',
         time: '09:00'
@@ -25,7 +45,8 @@ export default class BasicTable extends React.Component{
 
     this.setState({
       dataSource,
-    })
+    });
+    this.request();
   }
 
   render() {
@@ -44,11 +65,11 @@ export default class BasicTable extends React.Component{
       },
       {
         title: '状态',
-        dataIndex: 'status'
+        dataIndex: 'state'
       },
       {
         title: '爱好',
-        dataIndex: 'hobby'
+        dataIndex: 'interest'
       },
       {
         title: '生日',
@@ -70,6 +91,15 @@ export default class BasicTable extends React.Component{
             bordered
             columns={columns}
             dataSource={this.state.dataSource}
+            pagination={false}
+          />
+        </Card>
+
+        <Card title="动态表格">
+          <Table
+            bordered
+            columns={columns}
+            dataSource={this.state.dataSource1}
             pagination={false}
           />
         </Card>
