@@ -155,7 +155,7 @@ export default class BasicTable extends React.Component{
         <Card title="Mock-单选">
           <Table
             bordered
-            rwoSelection={selectedRowKeys}
+            rowSelection={rowSelection}
             onRow = {(record, index) => {
               return {
                 onClick: () => {
@@ -167,7 +167,6 @@ export default class BasicTable extends React.Component{
             dataSource={this.state.dataSource1}
             pagination={false}
           >
-
           </Table>
         </Card>
       </div>
