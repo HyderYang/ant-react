@@ -1,6 +1,5 @@
 import React from 'react'
-import {Card, Modal, Table} from "antd";
-import axios from 'axios';
+import {Button, Card, Modal, Table} from "antd";
 import Http from "../../http";
 
 export default class BasicTable extends React.Component{
@@ -11,6 +10,23 @@ export default class BasicTable extends React.Component{
       dataSource1: [],
     }
   }
+
+  // 多选删除
+  handleDelete = () => {
+    let rows = this.state.selectedRows;
+    let ids = [];
+    rows.map((item) => {
+        ids.push(item.id)
+    });
+    Modal.confirm({
+      title: '删除',
+      content: `您确定删除吗? ${ids.join(',')}`,
+      onOk: () => {
+        this.request();
+      }
+    })
+
+  };
 
   onRowClick = (record, index) => {
     let selectKey = [index];
@@ -40,7 +56,9 @@ export default class BasicTable extends React.Component{
       });
       if (res.code == 0) {
         this.setState({
-          dataSource1: res.result.list
+          dataSource1: res.result.list,
+          selectedRowKeys: [],
+          selectedRows: null
         })
       }
     })
@@ -132,6 +150,21 @@ export default class BasicTable extends React.Component{
       type: 'radio',
       selectedRowKeys
     };
+    const rowCheckSelection = {
+      type: 'checkbox',
+      selectedRowKeys,
+      onChange: (selectedRowKeys, selectedRows) => {
+        let ids = [];
+        selectedRows.map((item) => {
+          ids.push(item.id);
+        });
+        this.setState({
+          selectedRowKeys,
+          selectedIds: ids,
+          selectedRows: selectedRows
+        })
+      }
+    };
     return (
       <div>
         <Card title="基础表格">
@@ -163,6 +196,21 @@ export default class BasicTable extends React.Component{
                 }
               }
             }}
+            columns={columns}
+            dataSource={this.state.dataSource1}
+            pagination={false}
+          >
+          </Table>
+        </Card>
+
+
+        <Card title="Mock-多选">
+          <div>
+            <Button onClick={this.handleDelete}>删除</Button>
+          </div>
+          <Table
+            bordered
+            rowSelection={rowCheckSelection}
             columns={columns}
             dataSource={this.state.dataSource1}
             pagination={false}
