@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card, Table} from "antd";
+import {Card, Modal, Table} from "antd";
 import axios from 'axios';
 import Http from "../../http";
 
@@ -12,6 +12,20 @@ export default class BasicTable extends React.Component{
     }
   }
 
+  onRowClick = (record, index) => {
+    let selectKey = [index];
+
+    Modal.info({
+      title: '信息',
+      content: `用户名: ${record.username}`
+    });
+
+    this.setState({
+      selectedRowKeys: selectKey,
+      selectedItem:record
+    })
+  };
+
   request = () => {
     Http.ajax({
       url: '/table/list',
@@ -21,6 +35,9 @@ export default class BasicTable extends React.Component{
         }
       }
     }).then((res) => {
+      res.result.list.map((item, index) => {
+        item.key = index
+      });
       if (res.code == 0) {
         this.setState({
           dataSource1: res.result.list
@@ -43,6 +60,9 @@ export default class BasicTable extends React.Component{
       }
     ];
 
+    dataSource.map((item, index) => {
+      item.key = index
+    });
     this.setState({
       dataSource,
     });
@@ -107,6 +127,11 @@ export default class BasicTable extends React.Component{
         dataIndex: 'time'
       }
     ];
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      type: 'radio',
+      selectedRowKeys
+    };
     return (
       <div>
         <Card title="基础表格">
@@ -125,6 +150,25 @@ export default class BasicTable extends React.Component{
             dataSource={this.state.dataSource1}
             pagination={false}
           />
+        </Card>
+
+        <Card title="Mock-单选">
+          <Table
+            bordered
+            rwoSelection={selectedRowKeys}
+            onRow = {(record, index) => {
+              return {
+                onClick: () => {
+                    this.onRowClick(record, index)
+                }
+              }
+            }}
+            columns={columns}
+            dataSource={this.state.dataSource1}
+            pagination={false}
+          >
+
+          </Table>
         </Card>
       </div>
     );
