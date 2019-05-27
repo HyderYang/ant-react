@@ -13,5 +13,21 @@ export default {
 
   _prefixZero(num) {
     return num >= 10 ? num : '0' + num;
+  },
+
+  pagination(data, callback) {
+    return {
+      onChange: (current) => {
+          callback(current)
+      },
+      current: data.result.page,
+      pageSize: data.result.page_size,
+      total: data.result.total_count,
+      showTotal: () => {
+          return `共${data.result.total_count}条`
+      },
+      showQuickJumper: true
+    };
+
   }
 }

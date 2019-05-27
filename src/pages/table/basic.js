@@ -1,8 +1,13 @@
 import React from 'react'
 import {Button, Card, Modal, Table} from "antd";
 import Http from "../../http";
+import utils from "../../utils/utils";
 
 export default class BasicTable extends React.Component{
+  params = {
+    page: 1
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -43,11 +48,12 @@ export default class BasicTable extends React.Component{
   };
 
   request = () => {
+    let self = this;
     Http.ajax({
       url: '/table/list',
       data: {
         params: {
-          page:1
+          page:this.params.page
         }
       }
     }).then((res) => {
@@ -58,7 +64,11 @@ export default class BasicTable extends React.Component{
         this.setState({
           dataSource1: res.result.list,
           selectedRowKeys: [],
-          selectedRows: null
+          selectedRows: null,
+          pagination: utils.pagination(res, (current) => {
+            self.params.page = current;
+            this.request();
+          })
         })
       }
     })
@@ -203,7 +213,6 @@ export default class BasicTable extends React.Component{
           </Table>
         </Card>
 
-
         <Card title="Mock-多选">
           <div>
             <Button onClick={this.handleDelete}>删除</Button>
@@ -214,6 +223,16 @@ export default class BasicTable extends React.Component{
             columns={columns}
             dataSource={this.state.dataSource1}
             pagination={false}
+          >
+          </Table>
+        </Card>
+
+        <Card title="Mock-分页">
+          <Table
+            bordered
+            columns={columns}
+            dataSource={this.state.dataSource1}
+            pagination={this.state.pagination}
           >
           </Table>
         </Card>
