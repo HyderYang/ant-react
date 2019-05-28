@@ -1,13 +1,17 @@
 import React from 'react'
-import {Button, Card, Table} from "antd";
-import FilterForm from "./components/filterForm";
+import {Button, Card, message, Modal, Table} from "antd";
 import Http from "../../http";
 import utils from "../../utils/utils";
+
+import FilterForm from "./components/filterForm";
+import OpenCityForm from "./components/openCityForm";
 
 export default class City extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      isShowOpenCity: false
+    }
   }
 
   params = {
@@ -41,8 +45,31 @@ export default class City extends React.Component {
     })
   };
 
+  // 显示开通城市弹窗
   handleOpenCity = () => {
+    this.setState({
+      isShowOpenCity: true,
+    })
+  };
 
+  // 开通城市提交
+  handleSubmit = () => {
+    let cityInfo = this.cityForm.props.form.getFieldsValue();
+
+    Http.ajax({
+      url: '/city/open',
+      data: {
+        params: cityInfo
+      }
+    }).then((res) => {
+      if (res.code == '0') {
+        message.success('开通成功');
+        this.setState({
+          isShowOpenCity: false
+        });
+        this.requestList();
+      }
+    })
   };
 
   render() {
@@ -56,9 +83,15 @@ export default class City extends React.Component {
       }, {
         title: '用车模式',
         dataIndex:'mode',
+        render(mode){
+          return mode == 1 ? '禁停区':"停车点"
+        }
       }, {
         title: '营运模式',
         dataIndex: 'op_mode',
+        render(mode){
+          return mode ==1 ? '自营':'加盟'
+        }
       }, {
         title: '授权加盟商',
         dataIndex: 'franchisee_name'
@@ -73,6 +106,9 @@ export default class City extends React.Component {
       },{
         title: '操作时间',
         dataIndex: 'update_time',
+        render(time){
+          return utils.formatDate(time);
+        }
       },{
         title: '操作人',
         dataIndex: 'sys_user_name',
@@ -97,6 +133,21 @@ export default class City extends React.Component {
             pagination={this.state.pagination}
           />
         </div>
+
+        <Modal
+          title="开通城市"
+          visible={this.state.isShowOpenCity}
+          onOk={this.handleSubmit}
+          onCancel={() => {
+              this.setState({
+                isShowOpenCity: false
+              })
+          }}
+        >
+          <OpenCityForm wrappedComponentRef={(inst) => {
+              this.cityForm = inst;
+          }} />
+        </Modal>
       </div>
     );
   }
