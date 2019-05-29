@@ -1,5 +1,5 @@
 import React from 'react'
-import {Input, Radio, Form, Select, Button, Checkbox} from "antd";
+import {Input, Radio, Form, Select, Button, Checkbox, DatePicker} from "antd";
 import utils from "../../utils/utils";
 
 const FormItem = Form.Item;
@@ -79,6 +79,39 @@ class BaseForm extends React.Component {
               </FormItem>;
 
               formItemList.push(CHECKBOX)
+
+            } else if (item.type === "BETWEEN") {
+
+              const begin = <FormItem label={label} key={field}>
+                {
+                  getFieldDecorator('begin', {
+                    initialValue: initValue
+                  })(
+                    <DatePicker
+                      showTime={true}
+                      format={"YYYY-MM-DD HH:mm:ss"}
+                      type="text"
+                      placeholder={placeholder}
+                    />
+                  )
+                }
+              </FormItem>;
+
+              const end = <FormItem label={"~"} colon={false} key={field}>
+                {
+                  getFieldDecorator('end', {
+                    initialValue: initValue
+                  })(
+                    <DatePicker
+                      showTime={true}
+                      format={"YYYY-MM-DD HH:mm:ss"}
+                      type="text"
+                      placeholder={placeholder}
+                    />
+                  )
+                }
+              </FormItem>;
+              formItemList.push(end);
 
             }
         })
