@@ -51,7 +51,7 @@ export default class Http {
             })
           }
         } else {
-            reject(response.data);
+          reject(response.data);
         }
       })
     });
