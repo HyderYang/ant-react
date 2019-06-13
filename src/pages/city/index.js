@@ -32,16 +32,16 @@ export default class City extends React.Component {
         }
       }
     }).then((res) => {
-        this.setState({
-          list: res.result.item_list.map((item, index) => {
-              item.key = index;
-              return item;
-          }),
-          pagination: utils.pagination(res, (current) => {
-              self.params.page = current;
-              self.requestList();
-          })
+      this.setState({
+        list: res.result.item_list.map((item, index) => {
+          item.key = index;
+          return item;
+        }),
+        pagination: utils.pagination(res, (current) => {
+          self.params.page = current;
+          self.requestList();
         })
+      })
     })
   };
 
@@ -82,15 +82,15 @@ export default class City extends React.Component {
         dataIndex: 'name',
       }, {
         title: '用车模式',
-        dataIndex:'mode',
-        render(mode){
-          return mode == 1 ? '禁停区':"停车点"
+        dataIndex: 'mode',
+        render(mode) {
+          return mode == 1 ? '禁停区' : "停车点"
         }
       }, {
         title: '营运模式',
         dataIndex: 'op_mode',
-        render(mode){
-          return mode ==1 ? '自营':'加盟'
+        render(mode) {
+          return mode == 1 ? '自营' : '加盟'
         }
       }, {
         title: '授权加盟商',
@@ -98,18 +98,18 @@ export default class City extends React.Component {
       }, {
         title: '城市管理员',
         dataIndex: 'city_admins',
-        render(admins){
+        render(admins) {
           return admins.map((admin) => {
-              return admin.user_name;
+            return admin.user_name;
           }).join(',');
         }
-      },{
+      }, {
         title: '操作时间',
         dataIndex: 'update_time',
-        render(time){
+        render(time) {
           return utils.formatDate(time);
         }
-      },{
+      }, {
         title: '操作人',
         dataIndex: 'sys_user_name',
       }
@@ -139,14 +139,14 @@ export default class City extends React.Component {
           visible={this.state.isShowOpenCity}
           onOk={this.handleSubmit}
           onCancel={() => {
-              this.setState({
-                isShowOpenCity: false
-              })
+            this.setState({
+              isShowOpenCity: false
+            })
           }}
         >
           <OpenCityForm wrappedComponentRef={(inst) => {
-              this.cityForm = inst;
-          }} />
+            this.cityForm = inst;
+          }}/>
         </Modal>
       </div>
     );
