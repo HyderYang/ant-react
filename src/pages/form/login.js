@@ -48,13 +48,13 @@ class LoginForm extends React.Component {
                       required: true,
                       message: '用户名不能为空',
                     }, {
-                      min:5,
-                      max:10,
+                      min: 5,
+                      max: 10,
                       message: '长度不在范围内',
                     }
                   ]
                 })(
-                  <Input prefix={<Icon type={"user"} />} placeholder="用户名"/>
+                  <Input prefix={<Icon type={"user"}/>} placeholder="用户名"/>
                 )
               }
             </FormItem>
@@ -70,8 +70,8 @@ class LoginForm extends React.Component {
             <FormItem>
               {
                 getFieldDecorator('remember', {
-                  valuePropName:'checked',
-                  initialValue:true,
+                  valuePropName: 'checked',
+                  initialValue: true,
                   rules: []
                 })(
                   <Checkbox>记住密码</Checkbox>
